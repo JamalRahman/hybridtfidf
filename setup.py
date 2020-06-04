@@ -1,10 +1,17 @@
 from distutils.core import setup
+import pathlib
+
+HERE = pathlib.Path(__file__).parent
+
+README = (HERE / 'README.md').read_text()
+
 setup(
   name = 'hybridtfidf',         
   packages = ['hybridtfidf'],   
-  version = '0.5',      
+  version = '0.6',      
   license='MIT',        
   description = 'An implementation of the Hybrid TF-IDF microblog summarisation algorithm as proposed by David Ionuye and Jugal K. Kalita. Hybrid TF-IDF is designed with twitter data in mind, where document lengths are short. It is an approach to generating Multiple Post Summaries of a collection of documents.',
+  long_description = README,
   author = 'Jamal Rahman',
   author_email = 'jamalrahman95@gmail.com', 
   url = 'https://github.com/jamalrahman/hybridtfidf',   

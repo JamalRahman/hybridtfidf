@@ -10,25 +10,83 @@ class HybridTfidf:
         Both functions return the list in the same order as the initialised input list
     '''
     
-    def __init__(self,docs):
+    def __init__(self,threshold = 5):
+        self._isfit = False
+        self._threshold = threshold
+        
+        
+    def fit_transform(self, raw_documents):
+        '''Learn vocabulary and hybrid tf-idf terms, return document-term matrix
+
+        This is equivalent to calling fit and then transform
+
+        Args:
+            raw_documents (list of str): List of documents
+
+        Returns:
+            List of documents transformed into their Hybrid TF-IDF vector representations
         '''
-        Docs: list of strings, each string is a doc
+        self.fit(raw_documents)
+        self.transform(self._raw_documents)
+
+    def fit(self, raw_documents):
+        '''Learn vocabulary and calculate hybrid tf-idf terms for the vocabulary
+
+        Args:
+            raw_documents (list of str): List of documents
+
         '''
-        self._post_count = len(docs)
+
+        self._post_count = len(raw_documents)
         self._num_posts_containing_words = {}
         self._corpus_word_freqs = {}
-        
-        self._wordcounts(docs)
+        self._raw_documents = raw_documents
+
+        self._wordcounts(raw_documents)
         
         self._corpus_total_word_count = sum(self._corpus_word_freqs.values())
         self._corpus_all_words = self._corpus_word_freqs.keys()
         
         self._corpus_tfidfs = self._all_tfidfs()
+        self._isfit = True
+
+
+    def transform(self, raw_documents):
+        '''Transform documents to a document-term matrix
+
+        Uses the vocabulary and term/document frequencies learned by fit or fit_transform.
+
+        Args:
+            raw_documents (list of str): List of documents.
         
-        self.raw_docs = docs
-        
-        
-    def post_weight(self,post,threshold=6):
+        Returns:
+            List of documents transformed into their Hybrid TF-IDF vector representations
+
+        '''
+        post_htfidf_vecs = []
+        for post in raw_documents:
+            post_htfidf_vecs.append(self.post_vector(post,self._threshold))
+        return post_htfidf_vecs
+
+
+    def transform_to_weights(self, post_vectors):
+        '''Construct the post-saliency vector by aggregating normalised term-saliencies
+
+        Args:
+            post_vectors (list of (list of float)): Hybrid tfidf representation of the documents as a document-term matrix
+
+        Returns:
+            List of weights (floats) that represent the saliency of each document in the fit dataset. 
+
+        '''
+        post_weights = [sum(vec) for vec in post_vectors]
+        return post_weights
+    
+
+
+    # ---- Vector construction -------------------
+
+    def post_weight(self,post,threshold=self._threshold):
         '''
         This returns a post's saliency out of the collection of documents
         
@@ -39,9 +97,9 @@ class HybridTfidf:
         for word in post:
             word_weight = self._corpus_tfidfs[word]
             word_weights.append(word_weight)
-        return float(sum(word_weights)) / float(self._nf(post, threshold))
+        return float(sum(word_weights)) / float(self._nf(post, self._threshold))
     
-    def post_vector(self, post, threshold=6):
+    def post_vector(self, post, threshold=self._threshold):
         '''
         This returns the tfidf word vector for a post.
         Output elements should be in the order corresponding to the word-order of self._corpus_tfids.keys()==self._corpus_all_words
@@ -57,26 +115,19 @@ class HybridTfidf:
 
             vec.append(normalised_tfidf)
         return vec
-        
-    def fit(self,threshold):
+
+    def get_feature_names(self):
+        ''' Outputs the vocabulary in the order that all tfidf-vectors use
+
+        Returns:
+            List of the vocabulary which the object was trained on
         '''
-        threshold: Documents typically normalise by length. Documents shorter than 'threshold' will normalise by the threshold
-        '''
-        post_htfidf_vecs = []
-        for post in self.raw_docs:
-            post_htfidf_vecs.append(self.post_vector(post,threshold))
-        return post_htfidf_vecs
-    
-    def fit_weights(self,threshold):
-        '''
-        threshold: Documents typically normalise by length. Documents shorter than 'threshold' will normalise by the threshold
-        '''
-        post_weights = []
-        for post in self.raw_docs:
-            post_weights.append(self.post_weight(post,threshold))
-        return post_weights
-        
-        
+
+        # TODO: ERROR hANDLE FOR ENSURING FIT
+
+
+        return self._corpus_all_words
+
     # ---- TFIDF ----------------
     
     def tfidf_word_weight(self,word):
