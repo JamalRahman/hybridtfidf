@@ -8,7 +8,7 @@ setup(
   author = 'Jamal Rahman',
   author_email = 'jamalrahman95@gmail.com', 
   url = 'https://github.com/jamalrahman/hybridtfidf',   
-  download_url = 'https://github.com/jamalrahman/hybridtfidf/archive/v_01.tar.gz',
+  download_url = 'https://github.com/JamalRahman/hybridtfidf/archive/v0.5.tar.gz',
   keywords = ['TFIDF', 'Text Summarization','NLP'],
   install_requires=[],
   classifiers=[
