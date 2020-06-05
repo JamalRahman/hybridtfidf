@@ -1,14 +1,6 @@
 import math
 
 class HybridTfidf:
-    '''
-        Initialise on a list of strings/documents
-        fit() returns the documents as hybrid tf-idf vectors
-        fit_weights() returns a list of saliency weights corresponding to each document, specifying how well
-        a document represents the semantics of the documents.
-        
-        Both functions return the list in the same order as the initialised input list
-    '''
     
     def __init__(self,threshold = 5):
         self._isfit = False
@@ -47,7 +39,7 @@ class HybridTfidf:
         self._corpus_total_word_count = sum(self._corpus_word_freqs.values())
         self._corpus_all_words = self._corpus_word_freqs.keys()
         
-        self._corpus_tfidfs = self._all_tfidfs()
+        self.corpus_tfidfs = self._all_tfidfs()
         self._isfit = True
 
 
@@ -85,19 +77,6 @@ class HybridTfidf:
 
 
     # ---- Vector construction -------------------
-
-    def post_weight(self,post,threshold=self._threshold):
-        '''
-        This returns a post's saliency out of the collection of documents
-        
-        threshold: Documents normalise by length. Documents shorter than 'threshold' will normalise by the threshold.
-        '''
-        word_weights = []
-        post = post.split(' ')
-        for word in post:
-            word_weight = self._corpus_tfidfs[word]
-            word_weights.append(word_weight)
-        return float(sum(word_weights)) / float(self._nf(post, self._threshold))
     
     def post_vector(self, post, threshold=self._threshold):
         '''
@@ -108,7 +87,7 @@ class HybridTfidf:
         normalisation_factor = float(self._nf(post,threshold))
         splitpost = post.split(' ')
         
-        for word,tfidf in self._corpus_tfidfs.items():
+        for word,tfidf in self.corpus_tfidfs.items():
             
             normalised_tfidf = float(tfidf) / normalisation_factor
             normalised_tfidf = normalised_tfidf * (word in splitpost)
@@ -130,7 +109,7 @@ class HybridTfidf:
 
     # ---- TFIDF ----------------
     
-    def tfidf_word_weight(self,word):
+    def _tfidf_word_weight(self,word):
         '''
         Under Hybrid TFIDF, words have (mostly) the same TFIDF regardless of what document they're in.
         (Not calculated here but tfidf word weights can be normalised by length if returning post_vector)
@@ -153,7 +132,7 @@ class HybridTfidf:
         all_tfidfs = {}
         
         for word in self._corpus_all_words:
-            word_tfidf = self.tfidf_word_weight(word)
+            word_tfidf = self._tfidf_word_weight(word)
             all_tfidfs[word] = word_tfidf
         
         return all_tfidfs

@@ -1,0 +1,7 @@
+Error handling
+    1. Cannot get post vectors, or weights or anything before fitting
+
+
+Add select_top_k_posts with cosine sim
+
+Add support for sklearn metrics
