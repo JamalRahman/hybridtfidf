@@ -5,3 +5,5 @@ Error handling
 Add select_top_k_posts with cosine sim
 
 Add support for sklearn metrics
+
+Readme has working example

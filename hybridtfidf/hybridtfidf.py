@@ -1,4 +1,6 @@
 import math
+from numpy.linalg import norm
+from numpy import dot
 
 class HybridTfidf:
     
@@ -152,4 +154,58 @@ class HybridTfidf:
                     self._num_posts_containing_words[word]+=1
                 except:
                     self._num_posts_containing_words[word]=1
-            
+
+
+def cosine_sim(vec1, vec2):
+    '''Calculates the cosine similarity between two vectors
+    
+    Args:
+        vec1 (list of float): A vector
+        vec2 (list of float): A vector
+
+    Returns:
+        The cosine similarity between the two input vectors 
+    '''
+    return dot(vec1,vec2) / (norm(vec1)*norm(vec2))
+
+
+def select_salient_posts(post_vectors,k,sim_threshold):
+    '''
+        Selects the top k most salient posts in a collection of posts.
+        To avoid redundancy, any post too similar to other-posts are disregarded. Each selected post will therefore be both highly salient and representative of unique semantics.
+
+        Args:
+            post_vectors (list of (list of float)): Hybrid tfidf representation of the documents as a document-term matrix
+
+            k (int): The number of posts to select as output
+
+            sim_threshold (float): The maximum cosine similiarity for a post to be selected
+
+        Returns:
+
+    '''
+    i = 1
+
+    veclength = len(post_vectors)
+    loop_condition = True
+
+    indices = []
+    significant_indicies = []
+    significant_indicies.append(0)
+
+    while loop_condition:
+        is_similar = False
+
+        for j in significant_indicies:
+            sim = cosine_sim(post_vectors[j], post_vectors[i])
+            if sim >= sim_threshold:
+                is_similar = True
+
+        if not is_similar:
+            significant_indicies.append(i)
+
+        if (len(significant_indicies) >= k) or (i >= veclength) :
+            loop_condition = False
+        i+=1
+    
+    return significant_indicies
