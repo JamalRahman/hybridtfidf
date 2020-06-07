@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 from os import path
@@ -8,8 +8,8 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
   name = 'hybridtfidf',
-  packages = ['hybridtfidf'],
-  version = '1.0.1',
+  packages = find_packages(),
+  version = '1.0.2',
   license='MIT',
   description = 'An implementation of the Hybrid TF-IDF microblog summarisation algorithm as proposed by David Ionuye and Jugal K. Kalita.',
   long_description = long_description,
