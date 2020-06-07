@@ -51,6 +51,8 @@ tokenized_documents = [' '.join(document) for document in tokenized_documents]
 Create a HybridTfidf object and fit it on the data
 
 ```
+from hybridtfidf import HybridTfidf
+
 hybridtfidf = HybridTfidf(threshold=7)
 hybridtfidf.fit(tokenized_documents)
 
@@ -73,6 +75,8 @@ We select 'k' of the most relevant/salient documents, and to avoid redundancy we
 
 ```
 # Get the indices of the most significant documents. 
+from hybridtfidf.utils import select_salient_posts
+
 most_significant = select_salient_posts(post_vectors,post_weights, k = 5, similarity_threshold = 0.5)
 
 for i in most significant:

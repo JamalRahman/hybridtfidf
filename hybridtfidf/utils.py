@@ -1,3 +1,6 @@
+from numpy.linalg import norm
+from numpy import dot
+
 def cosine_sim(vec1, vec2):
     '''Calculates the cosine similarity between two vectors
     
@@ -52,14 +55,14 @@ def select_salient_posts(post_vectors,post_weights,k = 10,similarity_threshold =
 
         for j in significant_indices:
             sim = cosine_sim(sorted_keyed_vectors[j][1], sorted_keyed_vectors[i][1])
-            if sim >= sim_threshold:
+            if sim >= similarity_threshold:
                 is_similar = True
 
         if not is_similar:
             significant_indices.append(i)
             unsorted_indices.append(sorted_keyed_vectors[i][0])
 
-        if (len(significant_indices) >= k) or (i >= veclength) :
+        if (len(significant_indices) >= k) or (i >= veclength-1) :
             loop_condition = False
         i+=1
     
