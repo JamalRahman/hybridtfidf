@@ -2,8 +2,6 @@ Error handling
     1. Cannot get post vectors, or weights or anything before fitting
 
 
-Add select_top_k_posts with cosine sim
-
-Add support for sklearn metrics
-
-Readme has working example
+Optimization:
+    1. On fit, np.array the docs. (?, is this relevant if we will shortly use cython)
+    2. Cython: https://medium.com/swlh/distributing-python-packages-protected-with-cython-40fc29d84caf

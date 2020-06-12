@@ -1,6 +1,7 @@
 import math
 from numpy.linalg import norm
 from numpy import dot
+from numpy import array
 
 class HybridTfidf:
     
@@ -30,7 +31,7 @@ class HybridTfidf:
             raw_documents (list of str): List of documents
 
         '''
-
+        
         self._post_count = len(raw_documents)
         self._num_posts_containing_words = {}
         self._corpus_word_freqs = {}
