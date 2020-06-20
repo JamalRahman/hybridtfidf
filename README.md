@@ -63,25 +63,25 @@ hybridtfidf.fit(tokenized_documents)
 
 Transform the documents into their Hybrid TF-IDF vector representations, and get the saliency values for each document.
 ```
-post_vectors = hybridtfidf.transform(tokenized_posts)
-post_weights = hybridtfidf.transform_to_weights(tokenized_posts)
+document_vectors = hybridtfidf.transform(tokenized_documents)
+document_weights = hybridtfidf.transform_to_weights(tokenized_documents)
 ```
-The post vectors represent the documents as embedded in Hybrid TF-IDF vector space, any linear algebra techniques can be performed on these!
+The document vectors represent the documents as embedded in Hybrid TF-IDF vector space, any linear algebra techniques can be performed on these!
 
-The post weights list gives you a single number for each document, this number reflects how *salient* each document is (how strongly the document contributes towards a topical discussion). In theory, spammy-documents will have a low post saliency weight. 
+The document weights list gives you a single number for each document, this number reflects how *salient* each document is (how strongly the document contributes towards a topical discussion). In theory, spammy-documents will have a low post saliency weight. 
 
 Lastly, Ionuye and Kalita proposed using Hybrid TF-IDF to summarise the collection of documents.
 We select 'k' of the most relevant/salient documents, and to avoid redundancy we do not select any documents which are too cosine-similar to previous documents. In effect we select the top 'k' most important documents, skipping over documents that talk about the same topic. I.e - we summarise the collection of documents into 'k' representative documents.
 
 ```
 # Get the indices of the most significant documents. 
-from hybridtfidf.utils import select_salient_posts
+from hybridtfidf.utils import select_salient_documents
 
-most_significant = select_salient_posts(post_vectors,post_weights, k = 5, similarity_threshold = 0.5)
+most_significant = select_salient_documents(document_vectors,document_weights, k = 5, similarity_threshold = 0.5)
 
 for i in most significant:
     print(documents[i])         # Prints the 'k' most significant documents that are each about a separate topic
 ```
 
 
-Note: The indices of: the fit() input (the starting document list), the post_vectors, and the post_weights, are all lined up. Make sure not to re-order one without re-ordering the others similarly.
+Note: The indices of: the fit() input (the starting document list), the document_vectors, and the document_weights, are all lined up. Make sure not to re-order one without re-ordering the others similarly.
