@@ -9,7 +9,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 setup(
   name = 'hybridtfidf',
   packages = find_packages(),
-  version = '1.0.5',
+  version = '1.0.6',
   license='MIT',
   description = 'An implementation of the Hybrid TF-IDF microblog summarisation algorithm as proposed by David Ionuye and Jugal K. Kalita.',
   long_description = long_description,
