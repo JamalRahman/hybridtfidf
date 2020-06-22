@@ -6,6 +6,10 @@ from numpy import array
 class HybridTfidf:
     
     def __init__(self,threshold = 5):
+        '''
+        Args:
+            threshold (int): Documents normalise by length. Documents shorter than 'threshold' will normalise by the threshold. A higher threshold will bias the saliency towards longer documents.
+        '''
         self._isfit = False
         self._threshold = threshold
         
@@ -65,10 +69,10 @@ class HybridTfidf:
 
 
     def transform_to_weights(self, raw_documents):
-        '''Construct the post-saliency vector by aggregating normalised term-saliencies
+        '''Construct the document-saliency vector by aggregating normalised term-saliencies
 
         Args:
-            post_vectors (list of (list of float)): Hybrid tfidf representation of the documents as a document-term matrix
+            raw_documents (list of str): List of documents.
 
         Returns:
             List of weights (floats) that represent the saliency of each document in the fit dataset. 
