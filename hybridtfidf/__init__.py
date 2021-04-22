@@ -26,7 +26,7 @@ class HybridTfidf:
             List of documents transformed into their Hybrid TF-IDF vector representations
         '''
         self.fit(raw_documents)
-        self.transform(self._raw_documents)
+        return self.transform(self._raw_documents)
 
     def fit(self, raw_documents):
         '''Learn vocabulary and calculate hybrid tf-idf terms for the vocabulary
