@@ -37,8 +37,6 @@ def select_salient_posts(post_vectors,post_weights,k = 10,similarity_threshold =
 
 
     sorted_keyed_vectors = [z for _, z in sorted(zip(post_weights,enumerate(post_vectors)), key=lambda i: i[0],reverse=True)] # z is (i,vi) sorted by weight
-    # print(list(zip(post_weights,enumerate(post_vectors)))[1])
-    # print(sorted_keyed_vectors[0])
 
     i = 1
 
