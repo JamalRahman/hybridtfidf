@@ -1,4 +1,9 @@
 # Hybrid TF-IDF
+
+![PyPI - License](https://img.shields.io/pypi/l/hybridtfidf)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/jamalrahman/hybridtfidf)
+
+
 ---
 
 This is an implementation of the [Hybrid TF-IDF algorithm](https://ieeexplore.ieee.org/document/6113128) as proposed by David Ionuye and Jugal K. Kalita (2011).
