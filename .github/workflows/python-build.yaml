@@ -38,7 +38,8 @@ jobs:
           --wheel
           --outdir dist/
           .
-      - name: Publish
+      - name: Publish package
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
@@ -49,8 +50,3 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            LICENSE.txt
-            README.md
-            hybridtfidf/*
-            setup.cfg
-            setup.py
