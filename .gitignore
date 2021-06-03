@@ -2,3 +2,6 @@ dist/*
 MANIFEST
 *.DS_Store
 venv/
+.idea/
+build/
+hybridtfidf.egg-info
